@@ -1,0 +1,18 @@
+NOTAS PRA MENTORIA:
+
+SEMANA 1
+
+Pra relembrar:
+* .venv é o virtual enviroment do python pra não instalar as dependencias globalmente
+* deve ser criado via linha de comando no terminal
+* requirements é equivalente ao package.json do node
+* separei as responsas seguindo a lógica:
+  - api pras rotas
+  - schemas pra validação de dados/contratos
+  - service pra lógica da aplicação (regras de negocio)
+  - core pras configs (vai ter coisa no futuro)
+
+Perguntas:
+* Service deveria retornar string ou um obj?
+* Em que momento faz sentido trocar função por classe no service?
+* Essa separação API/service/schema tá correta?
