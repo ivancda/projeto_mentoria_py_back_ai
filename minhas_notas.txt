@@ -16,3 +16,5 @@ Perguntas:
 * Service deveria retornar string ou um obj?
 * Em que momento faz sentido trocar função por classe no service?
 * Essa separação API/service/schema tá correta?
+
+TODO: fazer uma branch dev quqando começar a semana 2
