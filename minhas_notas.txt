@@ -18,3 +18,31 @@ Perguntas:
 * Essa separação API/service/schema tá correta?
 
 TODO: fazer uma branch dev quqando começar a semana 2
+
+SEMANA 2
+
+Pra relembrar:
+* adicionando a pasta repositories pra cuidar das configs do banco e da lógica com SLQAlchemy
+* adicionando a pasta models pra cuidar da representação da tabela no banco e dados persistidos
+* lambda = função anônima com sintaxe reduzida do python / usada aqui pra adiar execução do datetime
+* repository existe para isolar persistência/acesso ao banco
+* model != schema
+  - model representa tabela/banco
+  - schema representa entrada/saída da API
+* fluxo atual:
+  api -> service -> repository -> database
+* database.py virou um hub de infra:
+  - engine
+  - SessionLocal
+  - Base
+  - get_db
+* SessionLocal é fábrica de sessões, não a sessão em si
+* Session = "conversa ativa" com o banco
+* FastAPI usa Depends + get_db para injetar sessão automaticamente
+* yield no get_db permite setup + cleanup automático
+* service agora faz alguma coisa pertinente
+* SQLite criou o banco automaticamente via SQLAlchemy + create_all
+
+Perguntas:
+* vale usar SQLite até Docker/Postgres ou não?
+* a responsabilidade de cada camada está boa/clara?
