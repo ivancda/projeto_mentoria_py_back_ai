@@ -11,3 +11,8 @@ def review_code(review_request: ReviewRequest, db) -> Review:
     review_saved = repository.create(code=review_request.code, result=result)
 
     return review_saved
+
+def get_all_reviews(db):
+    repository = ReviewRepository(db)
+    reviews = repository.get_all()
+    return reviews
