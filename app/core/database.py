@@ -7,9 +7,12 @@ from sqlalchemy.ext.declarative import declarative_base
 # cria uma fábrica de sessões para conversar com o banco
 from sqlalchemy.orm import sessionmaker
 
+# nossas settingssssss
+from app.core.config import settings
+
 # URL do banco.
 # SQLite usando um arquivo local chamado reviews.db
-DATABASE_URL = "sqlite:///./reviews.db"
+DATABASE_URL = settings.DATABASE_URL
 
 # cria a engine, ou seja, o "motor" de comunicação com o banco.
 # connect_args={"check_same_thread": False} para permitir uso com FastAPI em múltiplas threads (particularidade do SQLite). 
