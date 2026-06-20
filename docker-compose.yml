@@ -1,0 +1,19 @@
+services:
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://mentoria:mentoria@db:5432/reviews_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mentoria
+      POSTGRES_PASSWORD: mentoria
+      POSTGRES_DB: reviews_db
+    ports:
+      - "5432:5432"
