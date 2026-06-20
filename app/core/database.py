@@ -2,7 +2,7 @@
 from sqlalchemy import create_engine
 
 # cria a classe Base, que será usada pelos models/tabelas
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 # cria uma fábrica de sessões para conversar com o banco
 from sqlalchemy.orm import sessionmaker
