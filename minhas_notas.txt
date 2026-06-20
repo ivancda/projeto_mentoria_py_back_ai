@@ -43,6 +43,50 @@ Pra relembrar:
 * service agora faz alguma coisa pertinente
 * SQLite criou o banco automaticamente via SQLAlchemy + create_all
 
+//////////// Continuando a semana 2 (a saga 🧙‍♂️)
+* git rm --cached nomeDoArquivo <- comando pra remover arquivo do rastreamento do git sem deletar!
+* criando o config.py pra cuidar das env vars
+* criando a pasta tests para os testes unitarios e pytest instalado
+* criando requirements-dev só com as dependencias de desenvolvimento (por enquanto só pytest rs)
+
+
 Perguntas:
 * vale usar SQLite até Docker/Postgres ou não?
 * a responsabilidade de cada camada está boa/clara?
+
+//////////// Continuando a semana 2 (a saga 🧙‍♂️)
+* API: response_model no decorator ou usar como tipo?
+
+
+SEMANA 3
+
+Pra relembrar:
+
+* Imagem = molde do container
+* Container = instância em execução da imagem
+* PostgreSQL é um serviço separado da aplicação, diferente do sqlite que é só um arquivo
+* DATABASE_URL permitiu trocar sqlite por postgresql sem alterar API, service ou repository (delícia de arquitetura)
+* Variáveis passadas com -e viram env vars dentro do container
+* docker exec permite executar comandos dentro de um container já rodando
+* psql é o cliente de terminal do postgresql
+* \dt lista as tabelas do banco
+* \d nome_tabela mostra a estrutura da tabela
+* reviews_db=# indica que estou dentro do postgresql
+* Dockerfile descreve como construir uma imagem
+* docker build gera uma imagem
+* docker run cria um container a partir da imagem
+* .dockerignore impede de subir junk pro pra imagem
+* Docker Compose orquestra múltiplos containers! (belo)
+* localhost dentro do container != localhost da máquina
+* depends_on controla ordem de inicialização
+
+
+Perguntas:
+
+* foi um bom momento pra migrar pro postgresql?
+* dockerfile é tipo uma receita pra imagens, e o compose pra subir multiplas imagems, é isso msm?
+* quando a gente fala de "serviço funcionando" em docker, seria o container rodando pleno?
+* database url direto no compose é de boas?
+* depends_on ou healthcheck?
+* em que momento entra volumes? como usa-los?
+* o que vc mudaria nessa arquitetura do docker?
