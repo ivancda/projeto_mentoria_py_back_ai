@@ -14,11 +14,16 @@ from app.core.config import settings
 # SQLite usando um arquivo local chamado reviews.db
 DATABASE_URL = settings.DATABASE_URL
 
+if DATABASE_URL.startswith("sqlite"):
+    # connect_args={"check_same_thread": False} para permitir uso com FastAPI em múltiplas threads (particularidade do SQLite). 
+    connect_args = {"check_same_thread": False}
+else:
+    connect_args = {}
+
 # cria a engine, ou seja, o "motor" de comunicação com o banco.
-# connect_args={"check_same_thread": False} para permitir uso com FastAPI em múltiplas threads (particularidade do SQLite). 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    connect_args=connect_args
 )
 
 # cria a fábrica de sessões.
