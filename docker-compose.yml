@@ -4,16 +4,33 @@ services:
     build: .
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql+psycopg2://mentoria:mentoria@db:5432/reviews_db
+    env_file:
+    # lê as variáveis do arquivo .env e injeta como variáveis de ambiente no container
+      - .env
     depends_on:
-      - db
+      db:
+        # só sobe o app quando o banco passar no healthcheck (antes era só "db iniciou")
+        condition: service_healthy
 
   db:
     image: postgres:16
-    environment:
-      POSTGRES_USER: mentoria
-      POSTGRES_PASSWORD: mentoria
-      POSTGRES_DB: reviews_db
+    env_file:
+    # o postgres lê POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB daqui
+      - .env
     ports:
       - "5432:5432"
+    volumes:
+      # monta o volume nomeado no diretório onde o postgres salva os dados
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      # pg_isready: comando nativo do postgres que checa se o banco está aceitando conexões
+      # -U e -d: usa as variáveis do .env para saber qual usuário/banco testar
+      interval: 5s   # roda o teste a cada 5 segundos
+      timeout: 5s    # se o teste não responder em 5s, considera falha
+      retries: 5     # após 5 falhas consecutivas, marca o container como "unhealthy"
+
+volumes:
+  # declara o volume nomeado — o Docker gerencia onde ele fica no host
+  # sem isso, os dados do banco são perdidos quando o container é removido
+  postgres_data:
