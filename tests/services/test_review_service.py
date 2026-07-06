@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 from app.services.review_service import review_code, get_all_reviews
 
 # Importa o schema pra conseguir criar um ReviewRequest de mentira
-from app.schemas.review import ReviewRequest
+from app.schemas.review import ReviewRequest, ReviewResponse
 
 # Importa o model pra conseguir criar um Review de mentira como retorno esperado
 from app.models.review import Review
@@ -40,8 +40,10 @@ def test_review_code_retorna_review_salva():
 
         # --- ASSERT: verifica se o resultado foi o esperado ---
 
-        # Verifica se o retorno da função é exatamente o fake_review que configuramos
-        assert result == fake_review
+        # Verifica se o service retornou um ReviewResponse com os valores corretos
+        assert isinstance(result, ReviewResponse)
+        assert result.status == "success"
+        assert result.review == "review realizada para o código: print('hello')"
 
         # Verifica se o repository.create() foi chamado exatamente 1 vez, com esses argumentos.
         # Isso garante que o service montou o `result` corretamente antes de salvar.
