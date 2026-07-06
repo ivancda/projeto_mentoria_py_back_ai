@@ -6,10 +6,11 @@ from sqlalchemy.orm import Session
 
 router = APIRouter( )
 
+
+# TODO: ter o service já retornando o response model, para não precisar criar outro objeto aqui, vai ter que mudar o teste tambem
 @router.post("/review", response_model=ReviewResponse)
 def review_endpoint(review_request: ReviewRequest, db: Session = Depends(get_db)):
-    resultado = review_code(review_request, db)
-    return ReviewResponse(status="success", review=resultado.result)
+    return review_code(review_request, db)
 
 @router.get("/review", response_model=list[ReviewDB])
 def get_reviews(db: Session = Depends(get_db)):
