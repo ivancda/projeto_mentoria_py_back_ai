@@ -11,6 +11,8 @@ services:
       db:
         # só sobe o app quando o banco passar no healthcheck (antes era só "db iniciou")
         condition: service_healthy
+      ollama-pull:
+        condition: service_completed_successfully
 
   db:
     image: postgres:16
@@ -30,7 +32,39 @@ services:
       timeout: 5s    # se o teste não responder em 5s, considera falha
       retries: 5     # após 5 falhas consecutivas, marca o container como "unhealthy"
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: code-reviewer-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_HOST=${OLLAMA_URL}
+    entrypoint: >
+      sh -c "
+        echo 'baixando modelos...' &&
+        ollama pull ${OLLAMA_MODEL} &&
+        echo 'modelos baixados com sucesso meu fera.'
+      "
+
 volumes:
   # declara o volume nomeado — o Docker gerencia onde ele fica no host
   # sem isso, os dados do banco são perdidos quando o container é removido
   postgres_data:
+  ollama_data:
