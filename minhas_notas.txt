@@ -90,3 +90,29 @@ Perguntas:
 * depends_on ou healthcheck?
 * em que momento entra volumes? como usa-los?
 * o que vc mudaria nessa arquitetura do docker?
+
+FIX SEMANA 3
+
+* agora camada de api tá completamente desacoplada do service
+* testes também foram ajeitados de acordo com essa nova mudança no service
+* adicionado o volume para o banco, e o healthcheck no compose
+* escondendo a url do banco no .env
+
+
+SEMANA 4
+
+* novo serviço no compose para o ollama
+* novo serviço no compose para baixar os modelos do ollama
+* criada a camada de providers com uma classe abstrata llm provider
+* adicionei nas settings e no .env ollama url e model
+* instalei pacote de chamadas http
+* testei o ollama isolado via insomnia antes de integrar na API
+* testei o fluxo completo pelo swagger
+* adicionei timeout maior na chamada HTTP porque o ollama teve cold start carregando o modelo
+* qwen2.5-coder:7b rodando localmente via docker ✨
+
+Perguntas
+
+* no exemplo que mostrou na nossa call vc estava usando network_mode: host, qual a implicação disso?
+* o timeout alto no OllamaProvider é uma solução aceitável por enquanto?
+* no service, a factory ta criando um provider novo a cada request, isso daria ruim em um projeto grande né? de que forma seria mitigado?
