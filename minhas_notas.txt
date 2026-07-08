@@ -116,3 +116,6 @@ Perguntas
 * no exemplo que mostrou na nossa call vc estava usando network_mode: host, qual a implicação disso?
 * o timeout alto no OllamaProvider é uma solução aceitável por enquanto?
 * no service, a factory ta criando um provider novo a cada request, isso daria ruim em um projeto grande né? de que forma seria mitigado?
+* qual a forma de ideal de incorporar na arquitetura uma camada RAG?
+* que tipo de fine tuning poderia ser implementado nesse projeto? (Few-shot Learning, LoRA, QLoRA)
+* queria entender melhor como seria a implementação de um banco vetorial com embeddings em um projeto como esse
