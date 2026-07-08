@@ -1,5 +1,6 @@
 import httpx
 from app.providers.llm_provider import LLMProvider
+from app.providers.prompts import build_review_prompt
 from app.core.config import settings
 
 class OllamaProvider(LLMProvider):
@@ -7,7 +8,7 @@ class OllamaProvider(LLMProvider):
     def review(self, code: str) -> str:
         payload = {
             "model": settings.OLLAMA_MODEL,
-            "prompt": code,
+            "prompt": build_review_prompt(code),
             "stream": False,
         }
 
