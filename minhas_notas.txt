@@ -119,3 +119,4 @@ Perguntas
 * qual a forma de ideal de incorporar na arquitetura uma camada RAG?
 * que tipo de fine tuning poderia ser implementado nesse projeto? (Few-shot Learning, LoRA, QLoRA)
 * queria entender melhor como seria a implementação de um banco vetorial com embeddings em um projeto como esse
+* chunking? indexação?
