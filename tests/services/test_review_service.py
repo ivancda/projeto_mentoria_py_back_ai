@@ -2,14 +2,12 @@
 # MagicMock: cria objetos falsos que aceitam qualquer chamada
 # patch: substitui temporariamente um objeto real por um falso durante o teste
 from unittest.mock import MagicMock, patch
+from datetime import datetime
 
 # Importa as funções que queremos testar
 from app.services.review_service import review_code, get_all_reviews
 
-# Importa o schema pra conseguir criar um ReviewRequest de mentira
-from app.schemas.review import ReviewRequest, ReviewResponse
-
-# Importa o model pra conseguir criar um Review de mentira como retorno esperado
+from app.schemas.review import ReviewRequest, ReviewResponse, ReviewDB
 from app.models.review import Review
 
 
@@ -60,8 +58,8 @@ def test_get_all_reviews_retorna_lista():
 
     # Cria uma lista com dois Reviews falsos simulando o que o banco retornaria
     fake_reviews = [
-        Review(id=1, code="x = 1", result="review 1"),
-        Review(id=2, code="x = 2", result="review 2"),
+        Review(id=1, code="x = 1", result="review 1", created_at=datetime(2024, 1, 1)),
+        Review(id=2, code="x = 2", result="review 2", created_at=datetime(2024, 1, 2)),
     ]
 
     with patch("app.services.review_service.ReviewRepository") as MockRepo:
@@ -74,8 +72,10 @@ def test_get_all_reviews_retorna_lista():
 
         # --- ASSERT ---
 
-        # Verifica se o retorno é exatamente a lista que configuramos
-        assert result == fake_reviews
+        assert len(result) == 2
+        assert all(isinstance(r, ReviewDB) for r in result)
+        assert result[0].id == 1
+        assert result[1].id == 2
 
         # Verifica se a lista tem 2 itens (checa o tamanho)
         assert len(result) == 2
