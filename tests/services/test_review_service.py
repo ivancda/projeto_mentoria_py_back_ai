@@ -25,12 +25,12 @@ def test_review_code_retorna_review_salva():
     # patch() intercepta o ReviewRepository DENTRO do review_service.py e substitui por um falso.
     # O caminho é exatamente onde ele é USADO, não onde é definido.
     # MockRepo é o objeto falso que representa a classe ReviewRepository
-    with patch("app.services.review_service.ReviewRepository") as MockRepo:
+    with patch("app.services.review_service.get_provider") as MockProvider, \
+         patch("app.services.review_service.ReviewRepository") as MockRepo:
 
-        # Quando o código chamar repository.create(...), retorna o fake_review em vez de ir ao banco
+        MockProvider.return_value.review.return_value = "review realizada para o código: print('hello')"
         MockRepo.return_value.create.return_value = fake_review
 
-        # Cria o request de entrada que seria enviado pela API
         request = ReviewRequest(code="print('hello')")
 
         # --- ACT: executa a função que está sendo testada ---
@@ -43,8 +43,7 @@ def test_review_code_retorna_review_salva():
         assert result.status == "success"
         assert result.review == "review realizada para o código: print('hello')"
 
-        # Verifica se o repository.create() foi chamado exatamente 1 vez, com esses argumentos.
-        # Isso garante que o service montou o `result` corretamente antes de salvar.
+        MockProvider.return_value.review.assert_called_once_with("print('hello')")
         MockRepo.return_value.create.assert_called_once_with(
             code="print('hello')",
             result="review realizada para o código: print('hello')"
@@ -58,8 +57,8 @@ def test_get_all_reviews_retorna_lista():
 
     # Cria uma lista com dois Reviews falsos simulando o que o banco retornaria
     fake_reviews = [
-        Review(id=1, code="x = 1", result="review 1", created_at=datetime(2024, 1, 1)),
-        Review(id=2, code="x = 2", result="review 2", created_at=datetime(2024, 1, 2)),
+        Review(id=1, code="x = 1", result="review 1", created_at=datetime(2026, 1, 1)),
+        Review(id=2, code="x = 2", result="review 2", created_at=datetime(2026, 1, 2)),
     ]
 
     with patch("app.services.review_service.ReviewRepository") as MockRepo:
