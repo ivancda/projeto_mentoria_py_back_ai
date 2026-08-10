@@ -4,6 +4,13 @@ services:
     build: .
     ports:
       - "8000:8000"
+    healthcheck:
+      # usa urllib nativo do Python — não depende de curl/wget na imagem slim
+      test: ["CMD", "python", "-c", "import urllib.request, sys; r = urllib.request.urlopen('http://localhost:8000/health'); sys.exit(0 if r.status == 200 else 1)"]
+      interval: 30s # intervalo de check
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     env_file:
     # lê as variáveis do arquivo .env e injeta como variáveis de ambiente no container
       - .env
