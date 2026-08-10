@@ -121,3 +121,21 @@ Perguntas
 * queria entender melhor como seria a implementação de um banco vetorial com embeddings em um projeto como esse
 * chunking? indexação?
 * usar a VRAM pra rodar modelos?
+
+SEMANA 5
+
+* retorno corrigido no service
+* tenacity adicionado no ollama provider, timeout diminuiu pra 60 sec
+* logging_config adicionado
+* logging_config no lifespan, não no nível do módulo, lifespan roda depois do Uvicorn e a nossa config prevalece
+* endpoint /health verifica Ollama e banco antes de responder, retorna 503 quando unhealthy, permite integração com Docker healthcheck
+* healthcheck do compose agora aponta pra /health da API
+
+Perguntas:
+
+* Essa arquitetura que construímos de Router + Service + Repository seria a mais comum em projetos de Python/FastAPI reais?
+* Quais outras arquiteturas ou padrões você acha que eu deveria estudar depois dessa mentoria? Clean Architecture, Hexagonal, DDD etc.? Qual seria a ordem ideal?
+* Como se identifica que estou "arquitetando" muito uma aplicação, qual a linha entre overengineering e boa arquitetura?
+* Se o projeto crescesse pra vários serviços, vários providers de IA e muitos usuários simultâneos, que tipo de modificação teriamos que fazer na arquitetura?
+* Que conceitos de backend/arquitetura você acha que deveriam ser meus próximos focos de estudo?
+* Quais seriam os próximos passos pra eu sair de "sei implementar essa arquitetura" pra "sei decidir qual arquitetura usar"?
